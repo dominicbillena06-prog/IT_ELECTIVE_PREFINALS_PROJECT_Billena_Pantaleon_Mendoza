@@ -1,6 +1,5 @@
 ﻿using IT_ELECTIVE_PREFINALS_PROJECT.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection.Emit;
 
 namespace IT_ELECTIVE_PREFINALS_PROJECT.Data
 {
@@ -27,13 +26,14 @@ namespace IT_ELECTIVE_PREFINALS_PROJECT.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            // Composite Key Mappings
-
             modelBuilder.Entity<TeamMember>()
                 .HasKey(tm => new { tm.TeamId, tm.EmployeeId });
 
             modelBuilder.Entity<TicketTag>()
                 .HasKey(tt => new { tt.TicketId, tt.TagId });
+
+            modelBuilder.Entity<TicketAssignment>()
+                .HasKey(ta => new { ta.TicketId, ta.EmployeeId });
         }
     }
 }

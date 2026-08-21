@@ -6,9 +6,6 @@ namespace IT_ELECTIVE_PREFINALS_PROJECT.Models
     [Table("TicketAssignments")]
     public class TicketAssignment
     {
-        [Key]
-        public int Id { get; set; }
-
         public int TicketId { get; set; }
 
         public int EmployeeId { get; set; }
