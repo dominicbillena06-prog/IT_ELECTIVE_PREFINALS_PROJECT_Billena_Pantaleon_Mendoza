@@ -1,0 +1,26 @@
+﻿@model IEnumerable<IT_ELECTIVE_PREFINALS_PROJECT.Models.Employee>
+
+<h2>Employees</h2>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>Job Title</th>
+            <th>Department</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var emp in Model)
+        {
+            <tr>
+                <td>@emp.FirstName @emp.LastName</td>
+                <td>@emp.Email</td>
+                <td>@emp.JobTitle</td>
+                <td>@emp.Department?.Name</td>
+                <td>@(emp.IsActive == 1 ? "Active" : "Inactive")</td>
+            </tr>
+        }
+    </tbody>
+</table>
