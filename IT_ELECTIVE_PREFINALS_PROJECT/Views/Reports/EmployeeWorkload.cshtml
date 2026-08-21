@@ -1,0 +1,21 @@
+@model IEnumerable<dynamic>
+
+<h2>Employee Workload</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Employee</th>
+            <th>Unresolved Tickets</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var employee in Model)
+        {
+            <tr>
+                <td>@employee.EmployeeName</td>
+                <td>@employee.UnresolvedTickets</td>
+            </tr>
+        }
+    </tbody>
+</table>

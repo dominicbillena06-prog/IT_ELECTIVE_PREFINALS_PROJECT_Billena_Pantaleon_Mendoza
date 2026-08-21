@@ -1,0 +1,38 @@
+@model IEnumerable<IT_ELECTIVE_PREFINALS_PROJECT.Models.Ticket>
+
+<h2>Primary Assignees</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Ticket ID</th>
+            <th>Subject</th>
+            <th>Primary Assignee</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var ticket in Model)
+        {
+            var primaryAssignment = ticket.Assignments
+                .FirstOrDefault(a =>
+                    a.IsPrimary == 1 &&
+                    a.UnassignedAt == null);
+
+            <tr>
+                <td>@ticket.Id</td>
+                <td>@ticket.Subject</td>
+                <td>
+                    @if (primaryAssignment?.Employee != null)
+                    {
+                        @primaryAssignment.Employee.FirstName
+                        @primaryAssignment.Employee.LastName
+                    }
+                    else
+                    {
+                        <span>Unassigned</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

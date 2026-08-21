@@ -1,0 +1,35 @@
+@model IEnumerable<IT_ELECTIVE_PREFINALS_PROJECT.Models.Ticket>
+
+<h2>Multiple-Assignee Tickets</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Ticket ID</th>
+            <th>Subject</th>
+            <th>Customer</th>
+            <th>Assignee Count</th>
+            <th>Active Assignees</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var ticket in Model)
+        {
+            var activeAssignments = ticket.Assignments
+                .Where(a => a.UnassignedAt == null)
+                .ToList();
+
+            <tr>
+                <td>@ticket.Id</td>
+                <td>@ticket.Subject</td>
+                <td>@ticket.Customer?.CompanyName</td>
+                <td>@activeAssignments.Count</td>
+                <td>
+                    @string.Join(", ",
+                        activeAssignments.Select(a =>
+                            a.Employee.FirstName + " " + a.Employee.LastName))
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
