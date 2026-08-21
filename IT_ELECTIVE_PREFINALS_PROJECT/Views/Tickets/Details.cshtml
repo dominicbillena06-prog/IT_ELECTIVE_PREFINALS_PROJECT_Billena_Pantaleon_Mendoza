@@ -1,0 +1,136 @@
+@model IT_ELECTIVE_PREFINALS_PROJECT.Models.Ticket
+
+@{
+    ViewData["Title"] = "Ticket Details #" + Model.Id;
+}
+
+<div class="mb-3">
+    <a asp-action="Index" class="btn btn-secondary btn-sm">&larr; Back to Tickets List</a>
+</div>
+
+<div class="card mb-4 shadow-sm">
+    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+        <h3 class="mb-0">Ticket #@Model.Id: @Model.Subject</h3>
+        <span class="badge bg-light text-dark fs-6">@Model.Status?.Name</span>
+    </div>
+    <div class="card-body">
+        <p class="lead">@Model.Description</p>
+        <hr />
+        <div class="row">
+            <div class="col-md-6">
+                <p><strong>Customer:</strong> @Model.Customer?.CompanyName (@Model.Customer?.ContactName)</p>
+                <p><strong>Customer Email:</strong> <a href="mailto:@Model.Customer?.Email">@Model.Customer?.Email</a></p>
+                <p><strong>Category:</strong> @Model.Category?.Name</p>
+            </div>
+            <div class="col-md-6">
+                <p><strong>Priority:</strong> <span class="badge bg-warning text-dark">@Model.Priority?.Name</span></p>
+                <p><strong>Created Date:</strong> @Model.CreatedAt</p>
+                <p><strong>Due Date:</strong> @(string.IsNullOrEmpty(Model.DueAt) ? "N/A" : Model.DueAt)</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <!-- Active Assignments -->
+    <div class="col-md-6 mb-3">
+        <div class="card h-100 shadow-sm">
+            <div class="card-header bg-secondary text-white">
+                <h5 class="mb-0">Employee Assignments</h5>
+            </div>
+            <ul class="list-group list-group-flush">
+                @if (!Model.Assignments.Any())
+                {
+                <li class="list-group-item text-muted">No assignees found.</li>
+                }
+                else
+                {
+                    foreach (var assign in Model.Assignments)
+                    {
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <strong>@assign.Employee?.FirstName @assign.Employee?.LastName</strong>
+                        @if (assign.IsPrimary == 1)
+                                {
+                        <span class="badge bg-success ms-1">Primary</span>
+                                }
+                    </div>
+                    <small class="text-muted">Assigned: @assign.AssignedAt</small>
+                </li>
+                    }
+                }
+            </ul>
+        </div>
+    </div>
+
+    <!-- Tags & Attachments -->
+    <div class="col-md-6 mb-3">
+        <div class="card h-100 shadow-sm">
+            <div class="card-header bg-secondary text-white">
+                <h5 class="mb-0">Tags & Attachments</h5>
+            </div>
+            <div class="card-body">
+                <h6>Tags:</h6>
+                <div class="mb-3">
+                    @if (!Model.TicketTags.Any())
+                    {
+                    <span class="text-muted">No tags assigned.</span>
+                    }
+                    else
+                    {
+                        foreach (var tagMap in Model.TicketTags)
+                        {
+                    <span class="badge bg-info text-dark me-1 fs-6">@tagMap.Tag?.Name</span>
+                        }
+                    }
+                </div>
+                <hr />
+                <h6>Attachments:</h6>
+                @if (!Model.Attachments.Any())
+                {
+                <p class="text-muted">No attachments uploaded.</p>
+                }
+                else
+                {
+                <ul class="list-unstyled mb-0">
+                    @foreach (var att in Model.Attachments)
+                        {
+                    <li class="mb-1">
+                                <strong>@att.FileName</strong> (@att.FileSize bytes)
+                        <br /><small class="text-muted">Uploaded: @att.UploadedAt</small>
+                    </li>
+                        }
+                </ul>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Ticket Comments -->
+<div class="card shadow-sm mb-4">
+    <div class="card-header bg-dark text-white">
+        <h5 class="mb-0">Comments (@Model.Comments.Count)</h5>
+    </div>
+    <div class="card-body">
+        @if (!Model.Comments.Any())
+        {
+        <p class="text-muted mb-0">No comments on this ticket yet.</p>
+        }
+        else
+        {
+        <div class="list-group">
+            @foreach (var comment in Model.Comments.OrderByDescending(c => c.CreatedAt))
+                {
+            <div class="list-group-item list-group-item-action mb-2 rounded border">
+                <div class="d-flex w-100 justify-content-between align-items-center mb-1">
+                    <h6 class="mb-0 text-primary">@comment.Employee?.FirstName @comment.Employee?.LastName</h6>
+                    <small class="text-muted">@comment.CreatedAt</small>
+                </div>
+                <p class="mb-1">@comment.Comment</p>
+            </div>
+                }
+        </div>
+        }
+    </div>
+</div>
