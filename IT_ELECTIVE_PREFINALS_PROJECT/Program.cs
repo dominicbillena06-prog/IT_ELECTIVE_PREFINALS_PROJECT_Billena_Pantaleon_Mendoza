@@ -3,6 +3,8 @@ using IT_ELECTIVE_PREFINALS_PROJECT.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Environment.WebRootPath = Path.Combine(builder.Environment.ContentRootPath, "wwwroot");
+
 builder.Services.AddControllersWithViews();
 
 // Register SQLite DbContext

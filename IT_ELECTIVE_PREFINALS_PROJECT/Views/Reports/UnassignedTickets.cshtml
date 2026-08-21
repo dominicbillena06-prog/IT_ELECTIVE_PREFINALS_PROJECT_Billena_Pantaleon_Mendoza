@@ -1,0 +1,29 @@
+@model IEnumerable<IT_ELECTIVE_PREFINALS_PROJECT.Models.Ticket>
+
+<h2>Unassigned Tickets</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Ticket ID</th>
+            <th>Subject</th>
+            <th>Customer</th>
+            <th>Status</th>
+            <th>Created At</th>
+            <th>Due At</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var ticket in Model)
+        {
+            <tr>
+                <td>@ticket.Id</td>
+                <td>@ticket.Subject</td>
+                <td>@ticket.Customer?.CompanyName</td>
+                <td>@ticket.Status?.Name</td>
+                <td>@ticket.CreatedAt</td>
+                <td>@ticket.DueAt</td>
+            </tr>
+        }
+    </tbody>
+</table>

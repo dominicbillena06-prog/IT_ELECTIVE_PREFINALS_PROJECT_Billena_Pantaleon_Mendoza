@@ -1,0 +1,23 @@
+@model IEnumerable<dynamic>
+
+<h2>Department Workload</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Department</th>
+            <th>Total Employees</th>
+            <th>Unresolved Tickets</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var department in Model)
+        {
+            <tr>
+                <td>@department.DepartmentName</td>
+                <td>@department.EmployeeCount</td>
+                <td>@department.UnresolvedTickets</td>
+            </tr>
+        }
+    </tbody>
+</table>
